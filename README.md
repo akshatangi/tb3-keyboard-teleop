@@ -8,7 +8,7 @@ Target stack: **Ubuntu 22.04, ROS 2 Humble, Gazebo Classic 11, TurtleBot3 (burge
 ## What it does
 - `keyboard_teleop` node: reads keys from the terminal, publishes `geometry_msgs/Twist` on `/cmd_vel`.
 - Smooth acceleration (no instant jumps), speed limits of the TurtleBot3 burger (0.22 m/s, 2.84 rad/s),
-  adjustable speeds, a deadman timeout (robot stops if keys stop arriving), and a guaranteed stop on CTRL-C.
+  adjustable speeds, a deadman timeout (robot stops if keys stop arriving), and a final zero-velocity command on CTRL-C.
 - `sim.launch.py`: starts Gazebo + TurtleBot3 (world selectable, headless option).
 - `scripted_test`: automated movement test that checks `/odom` against the commands.
 
@@ -27,9 +27,11 @@ Target stack: **Ubuntu 22.04, ROS 2 Humble, Gazebo Classic 11, TurtleBot3 (burge
 | CTRL-C | quit (robot is stopped first) |
 
 Hold a movement key (terminal key-repeat keeps it alive). With the deadman on, the robot stops
-about 0.6 s after the last movement key.
+after 0.6 s without a movement key plus the ramp-down time.
 
 ## Install (Ubuntu 22.04 + ROS 2 Humble, apt)
+First install ROS 2 Humble using the official Ubuntu Debian-package guide below, including its repository setup. These commands assume that setup is complete. Check `lsb_release -rs` (must be 22.04) and `uname -m` first. On an M1 VM, aarch64 is expected but not yet verified here. This legacy Gazebo Classic stack is end-of-life; it is retained for compatibility with the tested project.
+
 ```bash
 sudo apt update
 sudo apt install ros-humble-desktop ros-humble-gazebo-ros-pkgs \
@@ -42,7 +44,8 @@ https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/ )
 
 ## Build
 ```bash
-git clone <this repo> && cd tb3-keyboard-teleop
+git clone https://github.com/akshat-jarvis/tb3-keyboard-teleop.git
+cd tb3-keyboard-teleop
 source /opt/ros/humble/setup.bash
 colcon build
 source install/setup.bash
@@ -58,6 +61,7 @@ ros2 launch tb3_keyboard_teleop sim.launch.py gui:=false # headless
 ```
 Terminal 2 (keyboard, needs its own terminal):
 ```bash
+source /opt/ros/humble/setup.bash
 source install/setup.bash && export TURTLEBOT3_MODEL=burger
 ros2 run tb3_keyboard_teleop keyboard_teleop
 ```
@@ -65,7 +69,7 @@ Optional RViz: `ros2 run rviz2 rviz2` (add RobotModel, LaserScan `/scan`, Odomet
 
 ## Tests
 ```bash
-python3 -m pytest src/tb3_keyboard_teleop/test              # logic tests, no ROS needed
+PYTHONPATH=src/tb3_keyboard_teleop python3 -m pytest src/tb3_keyboard_teleop/test              # logic tests, no ROS needed
 # with the simulation running (empty world recommended):
 ros2 service call /reset_simulation std_srvs/srv/Empty
 ros2 run tb3_keyboard_teleop scripted_test                  # prints PASS/FAIL per command
@@ -96,3 +100,5 @@ scripts/pty_keyboard_test.py   docs/   REPORT.md   ATTRIBUTION.md
 
 ## Credits
 See [ATTRIBUTION.md](ATTRIBUTION.md).
+
+Configuration: `ros2 run tb3_keyboard_teleop keyboard_teleop --ros-args --params-file src/tb3_keyboard_teleop/config/teleop.yaml` loads the supplied parameters. Do not run more than one teleop/test publisher at a time. Stop the keyboard node before starting either automated test.
