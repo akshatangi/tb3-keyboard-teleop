@@ -105,11 +105,14 @@ p1 = pose[0]
 check('hold s -> moves backward', (p1[0] - p0[0]) * math.cos(p0[2]) + (p1[1] - p0[1]) * math.sin(p0[2]) < -0.03,
       'dx=%.2f dy=%.2f' % (p1[0] - p0[0], p1[1] - p0[1]))
 
-# space stops a held command immediately
-os.write(master, b'w'); spin(1.0)
+# Disable deadman for this check, so it cannot explain the stop instead of SPACE.
+os.write(master, b'p'); spin(0.2)
+start_space = pose[0]
+hold('w', 1.5)
+was_moving = math.hypot(pose[0][0]-start_space[0], pose[0][1]-start_space[1]) > 0.03
 os.write(master, b' '); spin(2.0)
 pa = pose[0]; spin(1.5); pb = pose[0]
-check('space stops', math.hypot(pb[0] - pa[0], pb[1] - pa[1]) < 0.01, 'moved %.3f m after stop' %
+check('space stops', was_moving and math.hypot(pb[0] - pa[0], pb[1] - pa[1]) < 0.01, 'moved %.3f m after stop' %
       math.hypot(pb[0] - pa[0], pb[1] - pa[1]))
 
 os.write(master, b'u'); os.write(master, b'v'); spin(1.0); drain()

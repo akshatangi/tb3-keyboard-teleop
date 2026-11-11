@@ -1,9 +1,31 @@
-hold w -> moves forward      PASS  dx=0.36 dy=-0.00
+hold w -> moves forward      PASS  dx=-0.17 dy=0.32
 deadman auto-stop            PASS  moved 0.000 m while idle
-hold a -> turns left         PASS  dyaw=2.00 rad
-hold s -> moves backward     PASS  dx=0.18 dy=-0.39
+hold a -> turns left         PASS  dyaw=2.05 rad
+hold s -> moves backward     PASS  dx=0.25 dy=0.36
 space stops                  PASS  moved 0.000 m after stop
 u/v keys print speed         PASS  terminal output shows speed change
 robot stopped after CTRL-C   PASS  moved 0.000 m after exit
 SIGINT (CTRL-C) exits cleanly PASS  exit code 0
+--- node terminal output (tail) ---
+
+---------------------------------------------
+ TurtleBot3 keyboard teleoperation
+---------------------------------------------
+   q  w  e        w/s : forward / backward
+   a     d        a/d : rotate left / right
+   z  s  c        q/e/z/c : move while turning
+
+ SPACE or x : stop
+ u/j : linear speed  +/-      i/k : angular speed  +/-
+ p : toggle deadman (auto-stop when no key arrives)
+ v : print current velocity
+ CTRL-C : quit
+---------------------------------------------
+
+speed: linear=0.12 m/s angular=1.00 rad/s
+deadman OFF
+STOP
+speed: linear=0.14 m/s angular=1.00 rad/s
+velocity: linear=0.00 m/s angular=0.00 rad/s
+
 RESULT: 8/8 passed
