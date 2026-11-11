@@ -77,9 +77,11 @@ space stops, u changes speed, the robot is stopped after CTRL-C, and the node ex
 Distances vary with how fast the simulator runs relative to the clock used by the test, so they are
 checked against thresholds, not exact values.
 
-Screenshots of Gazebo (`docs/gazebo_start.png`, `docs/gazebo_during_test.png`) were taken from `gzclient`
-on a virtual display during the test run. They show the robot and its LiDAR rays; they are not a screen
-recording of a person typing.
+Screenshots of Gazebo were taken from `gzclient` on a virtual display. The close views
+`docs/robot_before.png` and `docs/robot_after.png` show the burger before and after a direct
+`/cmd_vel` command (0.03 m/s forward for about 4 seconds), with the camera unchanged and LiDAR rays
+hidden for clarity. This pair demonstrates simulation motion, not a person typing. Earlier wide
+views with LiDAR rays are also kept. The keyboard path is checked separately by the test logs.
 
 A bug found by testing: CTRL-C raised an error before the final stop command was published. Fixed
 by handling the interrupt in the node.

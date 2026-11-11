@@ -102,3 +102,10 @@ scripts/pty_keyboard_test.py   docs/   REPORT.md   ATTRIBUTION.md
 See [ATTRIBUTION.md](ATTRIBUTION.md).
 
 Configuration: `ros2 run tb3_keyboard_teleop keyboard_teleop --ros-args --params-file src/tb3_keyboard_teleop/config/teleop.yaml` loads the supplied parameters. Do not run more than one teleop/test publisher at a time. Stop the keyboard node before starting either automated test.
+
+## Simulation views
+Same camera, before and after a direct forward velocity command (0.03 m/s for about 4 seconds). LiDAR rays hidden for clarity. Keyboard input is tested separately by the pseudo-terminal tests.
+
+![TurtleBot3 before motion](docs/robot_before.png)
+
+![TurtleBot3 after motion](docs/robot_after.png)
