@@ -1,0 +1,9 @@
+hold w -> moves forward      PASS  dx=0.36 dy=-0.00
+deadman auto-stop            PASS  moved 0.000 m while idle
+hold a -> turns left         PASS  dyaw=2.04 rad
+hold s -> moves backward     PASS  dx=0.20 dy=-0.38
+space stops                  PASS  moved 0.000 m after stop
+u/v keys print speed         PASS  terminal output shows speed change
+robot stopped after CTRL-C   PASS  moved 0.000 m after exit
+SIGINT (CTRL-C) exits cleanly PASS  exit code 0
+RESULT: 8/8 passed

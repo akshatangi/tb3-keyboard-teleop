@@ -1,0 +1,9 @@
+Waiting for /odom ...
+forward (w)              PASS dist=0.34 m  dyaw=-0.00 rad   (moves forward > 0.2 m, no rotation)
+backward (s)             PASS dist=0.34 m  dyaw=-0.00 rad   (moves backward > 0.2 m)
+rotate left (a)          PASS dist=0.00 m  dyaw=+1.44 rad   (yaw increases > 0.8 rad)
+rotate right (d)         PASS dist=0.00 m  dyaw=-1.44 rad   (yaw decreases > 0.8 rad)
+forward-left arc (q)     PASS dist=0.16 m  dyaw=+1.42 rad   (moves and turns left)
+forward-right arc (e)    PASS dist=0.16 m  dyaw=-1.43 rad   (moves and turns right)
+stop (space)             PASS dist=0.00 m  dyaw=+0.00 rad   (robot stays (after ramp-down))
+RESULT: 7/7 passed
